@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Career Roadmap Recommendation Portal</title>
+
+<style>
+    body {font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0;}
+    header {background: #2d67ff; color: #fff; padding: 20px; text-align: center; font-size: 28px;}
+    .container {max-width: 700px; margin: 40px auto; background: #fff; padding: 20px; border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0,0,0,0.1);}
+    button {background: #2d67ff; color: #fff; padding: 12px 20px; border: none; border-radius: 6px;
+            cursor: pointer; font-size: 16px; margin-top: 10px;}
+    button:hover {background: #1c47c9;}
+    .question {margin: 15px 0; font-size: 18px;}
+    #resultBox {padding: 20px; background: #eaf2ff; border-radius: 8px; margin-top: 20px; display: none;}
+</style>
+
+</head>
+<body>
+
+<header>Career Roadmap Recommendation Portal</header>
+
+<div class="container" id="homePage">
+    <h2>Welcome!</h2>
+    <p>This portal helps you find the best IT career based on your interests. Click below to start.</p>
+    <button onclick="startTest()">Start Career Test</button>
+</div>
+
+<div class="container" id="testPage" style="display:none;">
+    <h2>Career Test</h2>
+
+    <div class="question">1. Do you like coding?
+        <br><input type="radio" name="coding" value="yes"> Yes
+        <input type="radio" name="coding" value="no"> No
+    </div>
+
+    <div class="question">2. Do you enjoy solving logical problems?
+        <br><input type="radio" name="logic" value="yes"> Yes
+        <input type="radio" name="logic" value="no"> No
+    </div>
+
+    <div class="question">3. Are you creative?
+        <br><input type="radio" name="creative" value="yes"> Yes
+        <input type="radio" name="creative" value="no"> No
+    </div>
+
+    <div class="question">4. Do you like maths and working with data?
+        <br><input type="radio" name="math" value="yes"> Yes
+        <input type="radio" name="math" value="no"> No
+    </div>
+
+    <div class="question">5. Do you like designing interfaces or graphics?
+        <br><input type="radio" name="design" value="yes"> Yes
+        <input type="radio" name="design" value="no"> No
+    </div>
+
+    <div class="question">6. Do you prefer cybersecurity or hacking topics?
+        <br><input type="radio" name="security" value="yes"> Yes
+        <input type="radio" name="security" value="no"> No
+    </div>
+
+    <button onclick="generateResult()">Submit</button>
+</div>
+
+<div class="container" id="resultPage" style="display:none;">
+    <h2>Your Career Recommendation</h2>
+    <div id="resultBox"></div>
+    <button onclick="restart()">Take Test Again</button>
+</div>
+
+<script>
+function startTest() {
+    document.getElementById('homePage').style.display = 'none';
+    document.getElementById('testPage').style.display = 'block';
+}
+
+function generateResult() {
+    let coding = get('coding');
+    let logic = get('logic');
+    let creative = get('creative');
+    let math = get('math');
+    let design = get('design');
+    let security = get('security');
+
+    let career = "";
+    let roadmap = "";
+
+    if (security === 'yes') {
+        career = "Cybersecurity";
+        roadmap = `
+            1. Learn Networking Basics <br>
+            2. Linux Fundamentals <br>
+            3. Ethical Hacking <br>
+            4. Tools: Nmap, Burp Suite <br>
+            5. Bug Bounty / SOC Analyst roles.
+        `;
+    }
+    else if (design === 'yes' && creative === 'yes') {
+        career = "UI/UX Designing";
+        roadmap = `
+            1. Learn Figma <br>
+            2. UI Principles <br>
+            3. UX Research <br>
+            4. Build 10 UI Projects <br>
+            5. Apply for UI/UX Internships.
+        `;
+    }
+    else if (coding === 'yes' && logic === 'yes' && math === 'yes') {
+        career = "Artificial Intelligence / Machine Learning";
+        roadmap = `
+            1. Python <br>
+            2. Maths for ML <br>
+            3. Machine Learning <br>
+            4. Deep Learning <br>
+            5. Build ML Projects.
+        `;
+    }
+    else if (coding === 'yes' && creative === 'yes') {
+        career = "Web Development";
+        roadmap = `
+            1. HTML, CSS <br>
+            2. JavaScript <br>
+            3. React <br>
+            4. Backend Node.js <br>
+            5. Build Full-Stack Projects.
+        `;
+    }
+    else if (coding === 'yes') {
+        career = "App Development";
+        roadmap = `
+            1. Dart + Flutter <br>
+            2. Firebase <br>
+            3. Build 5 Apps <br>
+            4. Learn API Integration.
+        `;
+    }
+    else {
+        career = "Cloud Computing / IT Operations";
+        roadmap = `
+            1. Linux Basics <br>
+            2. AWS / Azure <br>
+            3. DevOps Tools <br>
+            4. Cloud Certifications.
+        `;
+    }
+
+    document.getElementById('testPage').style.display = 'none';
+    document.getElementById('resultPage').style.display = 'block';
+
+    document.getElementById('resultBox').style.display = 'block';
+    document.getElementById('resultBox').innerHTML = `
+        <b>Recommended Career:</b> ${career}<br><br>
+        <b>Roadmap:</b><br>${roadmap}
+    `;
+}
+
+function get(name) {
+    let val = document.querySelector(`input[name="${name}"]:checked`);
+    return val ? val.value : "no";
+}
+
+function restart() {
+    document.getElementById('resultPage').style.display = 'none';
+    document.getElementById('homePage').style.display = 'block';
+}
+</script>
+
+</body>
+</html>
